@@ -7,24 +7,28 @@ type TabProps = {
 };
 
 export function Tab({ children }: TabProps) {
-  const { selectedTab, isInit } = useTabsContext();
-  const { activateTab, registerTab, unregisterTab } = useTabListContext();
+  const { selectedTab, isInit, registerTab, setSelectedTab } = useTabsContext();
+  const { activateTab } = useTabListContext();
   const id = useId();
 
   const tabRef = useRef<HTMLButtonElement>(null);
 
+  const isSelected = selectedTab === id;
+
   useLayoutEffect(() => {
     if (tabRef.current) {
-      registerTab(tabRef.current, id);
+      registerTab(id);
     }
+  }, [id, registerTab]);
 
-    return () => {
-      unregisterTab(id);
-    };
-  }, [id, registerTab, unregisterTab]);
+  useLayoutEffect(() => {
+    if (isSelected && tabRef.current) {
+      activateTab(tabRef.current, id);
+    }
+  }, [id, isSelected, activateTab]);
 
   function handleTabSelect() {
-    activateTab(tabRef.current!, id);
+    setSelectedTab(id);
   }
 
   return (

@@ -3,7 +3,7 @@ import { createContext, use } from 'react';
 export type TabsContextType = {
   selectedTab: string;
   setSelectedTab: (tab: string) => void;
-  registerTab: (id: string) => void;
+  registerTab: (tabId: string) => void;
   selectedTabIndex: number;
   //TODO: variant: 'default' | 'pill';
   isInit: boolean;
@@ -13,8 +13,8 @@ export const TabsContext = createContext<TabsContextType | null>(null);
 
 export type TabListContextType = {
   activateTab: (tab: HTMLButtonElement, id: string) => void;
-  registerTab: (tab: HTMLButtonElement, id: string) => void;
-  unregisterTab: (id: string) => void;
+  // registerTab: (tab: HTMLButtonElement, id: string) => void;
+  // unregisterTab: (id: string) => void;
 };
 
 export const TabListContext = createContext<TabListContextType | null>(null);

@@ -1,55 +1,42 @@
-import { useCallback, useMemo, useRef } from 'react';
-import { TabListContext, useTabsContext } from './tab-contexts';
+import { useCallback, useMemo, useState } from 'react';
+import { TabListContext } from './tab-contexts';
 
 type Props = {
   children: React.ReactNode;
 };
 
+interface IndicatorPosition {
+  left: number;
+  width: number;
+}
+
 export function TabList({ children }: Props) {
-  const { registerTab, setSelectedTab } = useTabsContext();
-  const indicatorRef = useRef<HTMLDivElement>(null);
-  const tabRegisterRef = useRef<Map<string, HTMLButtonElement>>(new Map());
+  const [indicatorPosition, setIndicatorPosition] = useState<IndicatorPosition>({ left: 0, width: 0 });
 
-  const activateTab = useCallback(
-    (tab: HTMLButtonElement, id: string) => {
-      if (indicatorRef.current) {
-        setSelectedTab(id);
-        indicatorRef.current.style.transform = `translateX(${tab.offsetLeft}px)`;
-        indicatorRef.current.style.width = `${tab.offsetWidth}px`;
-      }
-    },
-    [setSelectedTab]
-  );
-
-  const unregisterTabEl = useCallback((id: string) => {
-    tabRegisterRef.current.delete(id);
+  const activateTab = useCallback((tab: HTMLButtonElement) => {
+    setIndicatorPosition({
+      left: tab.offsetLeft,
+      width: tab.offsetWidth,
+    });
   }, []);
-
-  const registerTabEl = useCallback(
-    (tab: HTMLButtonElement, id: string) => {
-      tabRegisterRef.current.set(id, tab);
-      registerTab(id);
-
-      if (tabRegisterRef.current.size === 1) {
-        activateTab(tab, id);
-      }
-    },
-    [registerTab, activateTab]
-  );
 
   const context = useMemo(
     () => ({
-      registerTab: registerTabEl,
-      unregisterTab: unregisterTabEl,
       activateTab,
     }),
-    [registerTabEl, activateTab, unregisterTabEl]
+    [activateTab]
   );
 
   return (
     <TabListContext.Provider value={context}>
       <div className="flex space-x-2 relative" role="tablist">
-        <div className="absolute rounded-md h-full bg-gray-500 z-0 transition-transform ease-in-out duration-300" ref={indicatorRef} />
+        <div
+          className="absolute rounded-md h-full bg-gray-500 z-0 transition-transform ease-in-out duration-300"
+          style={{
+            transform: `translateX(${indicatorPosition.left}px)`,
+            width: `${indicatorPosition.width}px`,
+          }}
+        />
         {children}
       </div>
     </TabListContext.Provider>
