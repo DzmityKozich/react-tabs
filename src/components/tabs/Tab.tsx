@@ -33,7 +33,7 @@ export function Tab({ children }: TabProps) {
 
   return (
     <button
-      className={clsx('py-2 px-3 relative z-1 ', selectedTab === id && 'text-white', isInit && 'transition-all ease-in-out duration-300')}
+      className={clsx('py-2 px-3 relative z-1', selectedTab === id && 'text-white', isInit && 'transition-all ease-in-out duration-300')}
       role="tab"
       onClick={handleTabSelect}
       ref={tabRef}

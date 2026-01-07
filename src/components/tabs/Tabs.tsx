@@ -101,7 +101,7 @@ export function Tabs({ children }: TabsProps) {
 
   return (
     <TabsContext.Provider value={context}>
-      <div className="flex flex-col">{children}</div>
+      <div className="flex flex-col overflow-hidden">{children}</div>
     </TabsContext.Provider>
   );
 }
