@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { TabListContext } from './tab-contexts';
 
 type Props = {
@@ -13,18 +13,16 @@ interface IndicatorPosition {
 export function TabList({ children }: Props) {
   const [indicatorPosition, setIndicatorPosition] = useState<IndicatorPosition>({ left: 0, width: 0 });
 
-  const activateTab = useCallback((tab: HTMLButtonElement) => {
-    setIndicatorPosition({
-      left: tab.offsetLeft,
-      width: tab.offsetWidth,
-    });
-  }, []);
-
   const context = useMemo(
     () => ({
-      activateTab,
+      activateTab: (tab: HTMLButtonElement) => {
+        setIndicatorPosition({
+          left: tab.offsetLeft,
+          width: tab.offsetWidth,
+        });
+      },
     }),
-    [activateTab]
+    []
   );
 
   return (

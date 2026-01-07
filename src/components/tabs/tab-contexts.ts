@@ -13,8 +13,6 @@ export const TabsContext = createContext<TabsContextType | null>(null);
 
 export type TabListContextType = {
   activateTab: (tab: HTMLButtonElement, id: string) => void;
-  // registerTab: (tab: HTMLButtonElement, id: string) => void;
-  // unregisterTab: (id: string) => void;
 };
 
 export const TabListContext = createContext<TabListContextType | null>(null);
