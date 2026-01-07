@@ -10,17 +10,23 @@ type TabsState = {
   tabs: string[];
 };
 
-type ActionTypes = 'REGISTER_TAB' | 'SET_CURRENT_TAB' | 'UNREGISTER_TAB';
+/**
+ * Discriminated union type for all possible tab actions.
+ * Each action has a specific type and properly typed payload.
+ */
+type TabsAction =
+  | { type: 'REGISTER_TAB'; payload: { tabId: string } }
+  | { type: 'SET_CURRENT_TAB'; payload: { tabId: string } }
+  | { type: 'UNREGISTER_TAB'; payload: { tabId: string } };
 
-type Action = {
-  type: ActionTypes;
-  payload: unknown;
-};
-
-function reducer(state: TabsState, action: Action) {
+/**
+ * Reducer function for managing tabs state.
+ * Uses discriminated unions for type-safe action handling.
+ */
+function reducer(state: TabsState, action: TabsAction): TabsState {
   switch (action.type) {
     case 'REGISTER_TAB': {
-      const tabId = action.payload as string;
+      const { tabId } = action.payload;
       if (state.tabs.includes(tabId)) {
         return state;
       }
@@ -40,14 +46,14 @@ function reducer(state: TabsState, action: Action) {
     }
 
     case 'SET_CURRENT_TAB': {
-      const tabId = action.payload as string;
+      const { tabId } = action.payload;
       return {
         ...state,
         currentTabId: tabId,
       };
     }
     case 'UNREGISTER_TAB': {
-      const tabId = action.payload as string;
+      const { tabId } = action.payload;
       const filteredTabs = state.tabs.filter((id) => id !== tabId);
       let newCurrentTabId = state.currentTabId;
 
@@ -73,11 +79,11 @@ export function Tabs({ children }: TabsProps) {
   const isInit = useDeferredValue(!!state.currentTabId);
 
   const setSelectedTab = useCallback((tabId: string) => {
-    dispatch({ type: 'SET_CURRENT_TAB', payload: tabId });
+    dispatch({ type: 'SET_CURRENT_TAB', payload: { tabId } });
   }, []);
 
   const registerTab = useCallback((tabId: string) => {
-    dispatch({ type: 'REGISTER_TAB', payload: tabId });
+    dispatch({ type: 'REGISTER_TAB', payload: { tabId } });
   }, []);
 
   const selectedTabIndex = state.tabs.indexOf(state.currentTabId);
