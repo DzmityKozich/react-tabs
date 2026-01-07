@@ -1,5 +1,4 @@
-import { use } from 'react';
-import { TabsContext } from './tab-contexts';
+import { useTabsContext } from './tab-contexts';
 import clsx from 'clsx';
 
 type Props = {
@@ -7,7 +6,7 @@ type Props = {
 };
 
 export function TabBody({ children }: Props) {
-  const { selectedTabIndex, isInit } = use(TabsContext)!;
+  const { selectedTabIndex, isInit } = useTabsContext();
 
   return (
     <div

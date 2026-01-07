@@ -1,10 +1,6 @@
-import { Tab } from './components/tabs/Tab';
-import { TabList } from './components/tabs/TabList';
-import { Tabs } from './components/tabs/Tabs';
+import { Tab, TabBody, TabContent, TabList, Tabs } from './components/tabs';
 
 import './App.css';
-import { TabBody } from './components/tabs/TabBody';
-import { TabContent } from './components/tabs/TabContent';
 // import { LibTabs } from './components/lib-tabs/LibTabs';
 
 function App() {

@@ -1,12 +1,12 @@
-import { use, useCallback, useMemo, useRef } from 'react';
-import { TabListContext, TabsContext } from './tab-contexts';
+import { useCallback, useMemo, useRef } from 'react';
+import { TabListContext, useTabsContext } from './tab-contexts';
 
 type Props = {
   children: React.ReactNode;
 };
 
 export function TabList({ children }: Props) {
-  const { registerTab, setSelectedTab } = use(TabsContext)!;
+  const { registerTab, setSelectedTab } = useTabsContext();
   const indicatorRef = useRef<HTMLDivElement>(null);
   const tabRegisterRef = useRef<Map<string, HTMLButtonElement>>(new Map());
 
@@ -30,7 +30,6 @@ export function TabList({ children }: Props) {
       tabRegisterRef.current.set(id, tab);
       registerTab(id);
 
-      // Activate the first registered tab
       if (tabRegisterRef.current.size === 1) {
         activateTab(tab, id);
       }

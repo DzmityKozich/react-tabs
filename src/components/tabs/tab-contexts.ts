@@ -1,35 +1,11 @@
-import { createContext } from 'react';
-
-export class TabsManager {
-  private register = new Set<string>();
-
-  public addTab(tab: string) {
-    this.register.add(tab);
-  }
-
-  public removeTab(tab: string) {
-    this.register.delete(tab);
-  }
-
-  public get tabList() {
-    return [...this.register];
-  }
-
-  public get fistTab() {
-    return this.tabList[0];
-  }
-
-  public getTabByIndex(index: number) {
-    return this.tabList[index];
-  }
-}
+import { createContext, use } from 'react';
 
 export type TabsContextType = {
   selectedTab: string;
   setSelectedTab: (tab: string) => void;
   registerTab: (id: string) => void;
   selectedTabIndex: number;
-  // variant: 'default' | 'pill';
+  //TODO: variant: 'default' | 'pill';
   isInit: boolean;
 };
 
@@ -42,3 +18,41 @@ export type TabListContextType = {
 };
 
 export const TabListContext = createContext<TabListContextType | null>(null);
+
+/**
+ * Custom hook to safely consume TabsContext.
+ * Throws a descriptive error if used outside of a Tabs component.
+ *
+ * @returns TabsContextType - The tabs context value
+ * @throws Error if used outside of Tabs provider
+ */
+export function useTabsContext(): TabsContextType {
+  const context = use(TabsContext);
+
+  if (!context) {
+    throw new Error(
+      'useTabsContext must be used within a <Tabs> component. ' + 'Make sure your component is wrapped in a <Tabs> provider.'
+    );
+  }
+
+  return context;
+}
+
+/**
+ * Custom hook to safely consume TabListContext.
+ * Throws a descriptive error if used outside of a TabList component.
+ *
+ * @returns TabListContextType - The tab list context value
+ * @throws Error if used outside of TabList provider
+ */
+export function useTabListContext(): TabListContextType {
+  const context = use(TabListContext);
+
+  if (!context) {
+    throw new Error(
+      'useTabListContext must be used within a <TabList> component. ' + 'Make sure your component is wrapped in a <TabList> provider.'
+    );
+  }
+
+  return context;
+}

@@ -1,6 +1,5 @@
-import { use, useLayoutEffect, useRef, useState } from 'react';
-import { createRandomId } from '../../utils/random-id';
-import { TabListContext, TabsContext } from './tab-contexts';
+import { useId, useLayoutEffect, useRef } from 'react';
+import { useTabsContext, useTabListContext } from './tab-contexts';
 import clsx from 'clsx';
 
 type TabProps = {
@@ -8,9 +7,9 @@ type TabProps = {
 };
 
 export function Tab({ children }: TabProps) {
-  const { selectedTab, isInit } = use(TabsContext)!;
-  const { activateTab, registerTab, unregisterTab } = use(TabListContext)!;
-  const id = useState(createRandomId())[0];
+  const { selectedTab, isInit } = useTabsContext();
+  const { activateTab, registerTab, unregisterTab } = useTabListContext();
+  const id = useId();
 
   const tabRef = useRef<HTMLButtonElement>(null);
 
