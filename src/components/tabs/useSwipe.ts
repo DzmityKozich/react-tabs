@@ -1,14 +1,10 @@
 import { useCallback, useRef, useState } from 'react';
-
-interface Props {
-  selectNextTab: (currentTabIndex: number) => void;
-  selectPreviousTab: (currentTabIndex: number) => void;
-  selectedTabIndex: number;
-}
+import { useTabsContext } from './tab-contexts';
 
 const SWIPE_THRESHOLD = 100;
 
-export function useSwipe({ selectNextTab, selectPreviousTab, selectedTabIndex }: Props) {
+export function useSwipe() {
+  const { selectNextTab, selectPreviousTab, selectedTabIndex, draggable } = useTabsContext();
   const [xOffset, setXOffset] = useState(0);
 
   const startPosition = useRef<{ x: number; y: number }>(null);
@@ -20,22 +16,27 @@ export function useSwipe({ selectNextTab, selectPreviousTab, selectedTabIndex }:
     startPosition.current = null;
   }
 
-  const handlePointerDown = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
-    if (!!startPosition.current && event.pointerType === 'touch') {
-      cancelSwipe();
-      return;
-    }
+  const handlePointerDown = useCallback(
+    (event: React.PointerEvent<HTMLDivElement>) => {
+      if (!draggable) return;
 
-    if (event.pointerType === 'touch' && (event as unknown as TouchEvent).touches?.length > 1) {
-      return;
-    }
+      if (!!startPosition.current && event.pointerType === 'touch') {
+        cancelSwipe();
+        return;
+      }
 
-    startPosition.current = {
-      x: event.clientX,
-      y: event.clientY,
-    };
-    isSwipeRef.current = false;
-  }, []);
+      if (event.pointerType === 'touch' && (event as unknown as TouchEvent).touches?.length > 1) {
+        return;
+      }
+
+      startPosition.current = {
+        x: event.clientX,
+        y: event.clientY,
+      };
+      isSwipeRef.current = false;
+    },
+    [draggable]
+  );
 
   const handlePointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
     if (!startPosition.current) return;

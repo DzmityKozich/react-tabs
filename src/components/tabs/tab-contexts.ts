@@ -7,6 +7,7 @@ export type TabsContextType = {
   selectPreviousTab: (currentTabIndex: number) => void;
   registerTab: (tabId: string) => void;
   selectedTabIndex: number;
+  draggable?: boolean;
   //TODO: variant: 'default' | 'pill';
   isInit: boolean;
 };

@@ -7,13 +7,9 @@ type Props = {
 };
 
 export function TabBody({ children }: Props) {
-  const { selectedTabIndex, isInit, selectNextTab, selectPreviousTab } = useTabsContext();
+  const { selectedTabIndex, isInit } = useTabsContext();
 
-  const { xOffset, handlePointerDown, handlePointerMove, handlePointerUp, handlePointerCancel } = useSwipe({
-    selectedTabIndex,
-    selectNextTab,
-    selectPreviousTab,
-  });
+  const { xOffset, handlePointerDown, handlePointerMove, handlePointerUp, handlePointerCancel } = useSwipe();
 
   return (
     <div
