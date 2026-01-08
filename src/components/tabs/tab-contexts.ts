@@ -2,7 +2,9 @@ import { createContext, use } from 'react';
 
 export type TabsContextType = {
   selectedTab: string;
-  setSelectedTab: (tab: string) => void;
+  setSelectedTab: (tabId: string) => void;
+  selectNextTab: (currentTabIndex: number) => void;
+  selectPreviousTab: (currentTabIndex: number) => void;
   registerTab: (tabId: string) => void;
   selectedTabIndex: number;
   //TODO: variant: 'default' | 'pill';

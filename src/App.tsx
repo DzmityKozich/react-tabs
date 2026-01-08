@@ -19,9 +19,15 @@ function App() {
           </Tab>
         </TabList>
         <TabBody>
-          <TabContent>first</TabContent>
-          <TabContent>second</TabContent>
-          <TabContent>third</TabContent>
+          <TabContent>
+            <div className="flex justify-center items-center h-28 w-full bg-amber-400">first</div>
+          </TabContent>
+          <TabContent>
+            <div className="flex justify-center items-center h-28 w-full bg-cyan-400">second</div>
+          </TabContent>
+          <TabContent>
+            <div className="flex justify-center items-center h-28 w-full bg-green-400">third</div>
+          </TabContent>
         </TabBody>
       </Tabs>
 

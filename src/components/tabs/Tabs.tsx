@@ -86,6 +86,26 @@ export function Tabs({ children }: TabsProps) {
     dispatch({ type: 'REGISTER_TAB', payload: { tabId } });
   }, []);
 
+  const selectNextTab = useCallback(
+    (currentTabIndex: number) => {
+      if (currentTabIndex >= 0 && currentTabIndex < state.tabs.length - 1) {
+        const nextIndex = currentTabIndex + 1;
+        setSelectedTab(state.tabs[nextIndex]);
+      }
+    },
+    [state.tabs, setSelectedTab]
+  );
+
+  const selectPreviousTab = useCallback(
+    (currentTabIndex: number) => {
+      if (currentTabIndex > 0 && currentTabIndex < state.tabs.length) {
+        const previousIndex = currentTabIndex - 1;
+        setSelectedTab(state.tabs[previousIndex]);
+      }
+    },
+    [state.tabs, setSelectedTab]
+  );
+
   const selectedTabIndex = state.tabs.indexOf(state.currentTabId);
 
   const context = useMemo(
@@ -93,10 +113,12 @@ export function Tabs({ children }: TabsProps) {
       selectedTab: state.currentTabId,
       setSelectedTab,
       registerTab,
+      selectNextTab,
+      selectPreviousTab,
       selectedTabIndex,
       isInit,
     }),
-    [state.currentTabId, setSelectedTab, registerTab, selectedTabIndex, isInit]
+    [state.currentTabId, setSelectedTab, registerTab, selectedTabIndex, isInit, selectNextTab, selectPreviousTab]
   );
 
   return (
