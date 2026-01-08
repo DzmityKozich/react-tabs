@@ -1,5 +1,7 @@
 import { createContext, use } from 'react';
 
+export type TabVariant = 'plain' | 'outlined';
+
 export type TabsContextType = {
   selectedTab: string;
   setSelectedTab: (tabId: string) => void;
@@ -8,7 +10,7 @@ export type TabsContextType = {
   registerTab: (tabId: string) => void;
   selectedTabIndex: number;
   draggable?: boolean;
-  //TODO: variant: 'default' | 'pill';
+  variant?: TabVariant;
   isInit: boolean;
 };
 

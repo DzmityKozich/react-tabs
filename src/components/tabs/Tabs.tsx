@@ -1,13 +1,14 @@
-import { TabsContext } from './tab-contexts';
+import { TabsContext, type TabVariant } from './tab-contexts';
 import { useTabs } from './useTabs';
 
 type TabsProps = {
   children: React.ReactNode;
   draggable?: boolean;
+  variant?: TabVariant;
 };
 
-export function Tabs({ children, draggable = true }: TabsProps) {
-  const context = useTabs({ draggable });
+export function Tabs({ children, draggable = true, variant }: TabsProps) {
+  const context = useTabs({ draggable, variant });
 
   return (
     <TabsContext.Provider value={context}>

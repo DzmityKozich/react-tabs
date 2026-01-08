@@ -7,7 +7,7 @@ type TabProps = {
 };
 
 export function Tab({ children }: TabProps) {
-  const { selectedTab, isInit, registerTab, setSelectedTab } = useTabsContext();
+  const { selectedTab, isInit, registerTab, setSelectedTab, variant } = useTabsContext();
   const { activateTab } = useTabListContext();
   const id = useId();
 
@@ -31,9 +31,15 @@ export function Tab({ children }: TabProps) {
     setSelectedTab(id);
   }
 
+  const activeTabText = variant === 'plain' ? 'text-white' : 'text-black';
+
   return (
     <button
-      className={clsx('py-2 px-3 relative z-1', selectedTab === id && 'text-white', isInit && 'transition-all ease-in-out duration-300')}
+      className={clsx(
+        'py-2 px-3 relative z-1',
+        selectedTab === id && [activeTabText, 'font-semibold'],
+        isInit && 'transition-all ease-in-out duration-300'
+      )}
       role="tab"
       onClick={handleTabSelect}
       ref={tabRef}

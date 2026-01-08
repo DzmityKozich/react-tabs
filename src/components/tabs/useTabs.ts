@@ -1,7 +1,9 @@
 import { useCallback, useDeferredValue, useMemo, useReducer } from 'react';
+import type { TabVariant } from './tab-contexts';
 
 interface Props {
   draggable?: boolean;
+  variant?: TabVariant;
 }
 
 type TabsState = {
@@ -77,7 +79,7 @@ function reducer(state: TabsState, action: TabsAction): TabsState {
  * Custom hook that manages all tabs state and logic.
  * Handles tab registration, selection, and navigation.
  */
-export function useTabs({ draggable = true }: Props) {
+export function useTabs({ draggable = true, variant = 'plain' }: Props) {
   const [state, dispatch] = useReducer(reducer, { currentTabId: '', tabs: [] });
   const isInit = useDeferredValue(!!state.currentTabId);
 
@@ -121,7 +123,8 @@ export function useTabs({ draggable = true }: Props) {
       selectedTabIndex,
       isInit,
       draggable,
+      variant,
     }),
-    [state.currentTabId, setSelectedTab, registerTab, selectedTabIndex, isInit, selectNextTab, selectPreviousTab, draggable]
+    [state.currentTabId, setSelectedTab, registerTab, selectedTabIndex, isInit, selectNextTab, selectPreviousTab, draggable, variant]
   );
 }

@@ -6,7 +6,7 @@ import './App.css';
 function App() {
   return (
     <>
-      <Tabs>
+      <Tabs variant="outlined">
         <TabList>
           <Tab>
             <span>Tab 1</span>
