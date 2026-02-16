@@ -1,7 +1,5 @@
 import { Tab, TabBody, TabContent, TabList, Tabs } from './components/tabs';
-
 import './App.css';
-// import { LibTabs } from './components/lib-tabs/LibTabs';
 
 function App() {
   return (
